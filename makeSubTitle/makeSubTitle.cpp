@@ -7,9 +7,15 @@
 int main(size_t size, char **data)
 {
 	std::cout << "Make combine subtitre file" << std::endl;
-
-	if (size < 4)
-		std::cout << "ERR: wrong parameters" << std::endl;
+	if (size < 4) {
+		std::cout << "ERR: wrong parameters." << std::endl;
+		std::cout << "This application marge two subscribe files." << std::endl;
+		std::cout << "Mandatory parameters:" << std::endl;
+		std::cout << "1 - basic subscribe file path;" << std::endl;
+		std::cout << "2 - additional subscribe file path;" << std::endl;
+		std::cout << "3 - out subscribe file path;" << std::endl;
+		std::cout << "Copyright (c) 2016 Kusii S.M." << std::endl;
+	}
 	else
 	{
 		try
