@@ -2,78 +2,12 @@
 #include "cSubFile.h"
 #include <fstream>
 #include <regex>
+#include "Converter.h"
 
 #define AUTHOR_NAME "Sergii Kusii"
 #define FIRST_BLOC "0\r\n00:00:01,000 --> 00:00:05,000\r\nReleased by Sergii Kusii"
 
-std::vector<std::pair<char, std::string>> g_cyryllicLatinMap = { 
-	{'à', "a"},
-	{'À', "A"},
-	{ 'á', "b" },
-	{ 'Á', "B" },
-	{ 'â', "v" },
-	{ 'Â', "V" },
-	{ 'ã', "g" },
-	{ 'Ã', "G" },
-	{ 'ä', "d" },
-	{ 'Ä', "D" },
-	{ 'å', "e" },
-	{ 'Å', "E" },
-	{ '¸', "zh" },
-	{ '¨', "Zh" },
-	{ 'æ', "zh" },
-	{ 'Æ', "Zh" },
-	{ 'ç', "zh" },
-	{ 'Ç', "Zh" },
-	{ 'è', "zh" },
-	{ 'È', "Zh" },
-	{ 'é', "zh" },
-	{ 'É', "Zh" },
-	{ 'ê', "zh" },
-	{ 'Ê', "Zh" },
-	{ 'ë', "zh" },
-	{ 'Ë', "Zh" },
-	{ 'ì', "zh" },
-	{ 'Ì', "Zh" },
-	{ 'í', "zh" },
-	{ 'Í', "Zh" },
-	{ 'î', "zh" },
-	{ 'Î', "Zh" },
-	{ 'ï', "zh" },
-	{ 'Ï', "Zh" },
-	{ 'ð', "zh" },
-	{ 'Ð', "Zh" },
-	{ 'ñ', "zh" },
-	{ 'Ñ', "Zh" },
-	{ 'ò', "zh" },
-	{ 'Ò', "Zh" },
-	{ 'ó', "zh" },
-	{ 'Ó', "Zh" },
-	{ 'ô', "zh" },
-	{ 'Ô', "Zh" },
-	{ 'õ', "zh" },
-	{ 'Õ', "Zh" },
-	{ 'ö', "zh" },
-	{ 'Ö', "Zh" },
-	{ '÷', "zh" },
-	{ '×', "Zh" },
-	{ 'ø', "zh" },
-	{ 'Ø', "Zh" },
-	{ 'ù', "zh" },
-	{ 'Ù', "Zh" },
-	{ 'ú', "zh" },
-	{ 'Ú', "Zh" },
-	{ 'û', "zh" },
-	{ 'Û', "Zh" },
-	{ 'ü', "zh" },
-	{ 'Ü', "Zh" },
-	{ 'ý', "zh" },
-	{ 'Ý', "Zh" },
-	{ 'þ', "zh" },
-	{ 'Þ', "Zh" },
-	{ 'ÿ', "zh" },
-	{ 'ß', "Zh" },
-};
+const std::string sSeparator = "-----------------------";
 
 cSubFile::cSubFile(const bool bConvCyryllic) 
 	: m_bConvCyryllic(bConvCyryllic)
@@ -99,7 +33,6 @@ void cSubFile::readFromFile(const std::string& sFileName)
 	std::regex regStartFragment("[0123456789]{1,3}");
 	std::regex regTime("[0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4} --> [0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4}");
 	bool isFragment = false;
-
 	while (File) {
 		std::getline(File, sLine);
 
@@ -129,16 +62,12 @@ void cSubFile::readFromFile(const std::string& sFileName)
 	File.close(); 
 }
 
-void cSubFile::convertCyryllic(std::string& sLine)
-{
-
-
-}
-
 void cSubFile::convert(std::string& sLine)
 {
 	if (m_bConvCyryllic){
-		convertCyryllic(sLine);
+		std::string sConertedLine;
+		convertCyryllic(sLine, sConertedLine);
+		sLine = sConertedLine;
 	}
 }
 
@@ -204,4 +133,9 @@ cFragment& cSubFile::operator[](size_t i)
 	return _Fragments[i];
 }
 
-cSubFile::~cSubFile(){}
+void cSubFile::addSeparator()
+{
+	for (auto& fragment : _Fragments){
+		fragment.addText(sSeparator);
+	}
+}

@@ -155,11 +155,13 @@
   <ItemGroup>
     <ClInclude Include="cFragment.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="Converter.h" />
     <ClInclude Include="cSubFile.h" />
     <ClInclude Include="cTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cFragment.cpp" />
+    <ClCompile Include="Converter.cpp" />
     <ClCompile Include="cSubFile.cpp" />
     <ClCompile Include="cTime.cpp" />
     <ClCompile Include="makeSubTitle.cpp" />

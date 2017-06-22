@@ -54,9 +54,12 @@ int main(size_t size, char **data)
 			readInputData(size, data);
 
 			cSubFile subFileLeft;
-			cSubFile subFileRight;
+			cSubFile subFileRight(g_inputCfg.bTransformCyryllic);
 			subFileLeft.readFromFile(g_inputCfg.sFileLeft);
 			subFileRight.readFromFile(g_inputCfg.sFileRight);
+			if (g_inputCfg.bTransformCyryllic){
+				subFileLeft.addSeparator();
+			}
 			subFileLeft.merge(subFileRight);
 			subFileLeft.saveToFile(g_inputCfg.sFileOut);
 

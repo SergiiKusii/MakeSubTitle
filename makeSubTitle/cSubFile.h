@@ -10,9 +10,10 @@ public:
 	void readFromFile(const std::string& sFileName);
 	void merge(cSubFile& sFile);
 	void saveToFile(const std::string& sFileName);
+	void addSeparator();
 	size_t size();
 	cFragment& operator[](size_t i);
-	~cSubFile();
+	~cSubFile() = default;
 
 private:
 	cSubFile(cSubFile& sFile);
@@ -20,6 +21,5 @@ private:
 	bool m_bConvCyryllic;
 
 	void convert(std::string& sLine);
-	void convertCyryllic(std::string& sLine);
 };
 
