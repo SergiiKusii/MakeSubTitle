@@ -4,6 +4,37 @@
 #include <string>
 #include "cSubFile.h"
 
+namespace tag {
+	const std::string sConvCyryllic = "-c";
+}
+struct InputData
+{
+	std::string sFileLeft;
+	std::string sFileRight;
+	std::string sFileOut;
+
+	bool bTransformCyryllic = false;
+};
+
+static InputData g_inputCfg;
+
+//TODO: standart read
+void readInputData(size_t size, char **data){
+	data++; //skip run file
+	std::cout << "File left = " << *data << std::endl;
+	g_inputCfg.sFileLeft = *data;
+	data++;
+	std::cout << "File right = " << *data << std::endl;
+	g_inputCfg.sFileRight = *data;
+	data++;
+	std::cout << "File out = " << *data << std::endl;
+	g_inputCfg.sFileOut = *data;
+	if (size == 5) {
+		data++;
+		g_inputCfg.bTransformCyryllic = (tag::sConvCyryllic == *data);
+	}
+}
+
 int main(size_t size, char **data)
 {
 	std::cout << "Make combine subtitre file" << std::endl;
@@ -20,22 +51,14 @@ int main(size_t size, char **data)
 	{
 		try
 		{
-			data++; //skip run file
-			std::cout << "File left = " << *data << std::endl;
-			std::string sFileInLeft(*data);
-			data++;
-			std::cout << "File right = " << *data << std::endl;
-			std::string sFileInRight(*data);
-			data++;
-			std::cout << "File out = " << *data << std::endl;
-			std::string sFileOut(*data);
+			readInputData(size, data);
 
 			cSubFile subFileLeft;
 			cSubFile subFileRight;
-			subFileLeft.readFromFile(sFileInLeft);
-			subFileRight.readFromFile(sFileInRight);
+			subFileLeft.readFromFile(g_inputCfg.sFileLeft);
+			subFileRight.readFromFile(g_inputCfg.sFileRight);
 			subFileLeft.merge(subFileRight);
-			subFileLeft.saveToFile(sFileOut);
+			subFileLeft.saveToFile(g_inputCfg.sFileOut);
 
 			std::cout << "SUCCESS :)" << std::endl;
 		}
