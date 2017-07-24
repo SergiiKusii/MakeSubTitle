@@ -45,6 +45,7 @@ int main(size_t size, char **data)
 		std::cout << "1 - basic subscribe file path;" << std::endl;
 		std::cout << "2 - additional subscribe file path;" << std::endl;
 		std::cout << "3 - out subscribe file path;" << std::endl;
+		std::cout << "4 - convert cyrillic symbols to latin (-c)" << std::endl;
 		std::cout << "Copyright (c) 2016 Kusii S.M." << std::endl;
 	}
 	else
