@@ -2,11 +2,12 @@
 #include "cFragment.h"
 #include <vector>
 #include <string>
+#include "Converter.h"
  
 class cSubFile
 {
 public:
-	cSubFile(const bool bConvCyryllic = false);
+	cSubFile(const convertCfg& convCfg);
 	void readFromFile(const std::string& sFileName);
 	void merge(cSubFile& sFile);
 	void saveToFile(const std::string& sFileName);
@@ -18,7 +19,7 @@ public:
 private:
 	cSubFile(cSubFile& sFile);
 	std::vector<cFragment> _Fragments;
-	bool m_bConvCyryllic;
+	convertCfg m_convCfg;
 
 	void convert(std::string& sLine);
 };

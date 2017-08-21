@@ -9,8 +9,8 @@
 
 const std::string sSeparator = "-----------------------";
 
-cSubFile::cSubFile(const bool bConvCyryllic) 
-	: m_bConvCyryllic(bConvCyryllic)
+cSubFile::cSubFile(const convertCfg& convCfg)
+	: m_convCfg(convCfg)
 {
 	//TODO add author bloc
 }
@@ -64,7 +64,7 @@ void cSubFile::readFromFile(const std::string& sFileName)
 
 void cSubFile::convert(std::string& sLine)
 {
-	if (m_bConvCyryllic){
+	if (m_convCfg.bTransformCyrToLat){
 		std::string sConertedLine;
 		convertCyryllic(sLine, sConertedLine);
 		sLine = sConertedLine;
@@ -110,21 +110,13 @@ void cSubFile::saveToFile(const std::string& sFileName)
 	if (!File)
 		throw "ERR make out file: " + sFileName;
 
-//	std::string str;
-
 	for (size_t i = 0; i < _Fragments.size(); i++)
 	{
 		File << i << LINE_BREAK;
 		File << _Fragments[i].getStr();
 		File << LINE_BREAK;
-
-		//str += std::to_string(i);
-		//str += LINE_BREAK;
-		//str += _Fragments[i].getStr();
-		//str += LINE_BREAK;
 	}
 
-//	File << str;
 	File.close();
 }
 
