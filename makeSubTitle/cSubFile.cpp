@@ -69,6 +69,18 @@ void cSubFile::convert(std::string& sLine)
 		convertCyryllic(sLine, sConertedLine);
 		sLine = sConertedLine;
 	}
+
+	if (m_convCfg.bConvert) {
+		std::string sConertedLine;
+		
+		if (m_convCfg.encFrom == eEncoding::cp1251 && m_convCfg.encTo == eEncoding::utf8Bom) {
+			cp1251_to_utf8(sLine.c_str(), sConertedLine);
+		}
+		else
+			throw "Cannot convert, unknown convertor";
+
+		sLine = sConertedLine;
+	}
 }
 
 size_t cSubFile::size()
@@ -103,12 +115,28 @@ void cSubFile::merge(cSubFile& subFileRight)
 	}
 }
 
+void cSubFile::addBom(std::ofstream& File) {
+	if (m_convCfg.bConvert){
+		switch (m_convCfg.encTo)
+		{
+		case eEncoding::utf8Bom:
+			File << bom::sUtf8;
+			break;
+		default:
+			break;
+		}
+	}
+
+}
+
 void cSubFile::saveToFile(const std::string& sFileName)
 {
 	std::ofstream File(sFileName);
 
 	if (!File)
 		throw "ERR make out file: " + sFileName;
+
+	addBom(File);
 
 	for (size_t i = 0; i < _Fragments.size(); i++)
 	{

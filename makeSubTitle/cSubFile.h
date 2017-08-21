@@ -22,5 +22,6 @@ private:
 	convertCfg m_convCfg;
 
 	void convert(std::string& sLine);
+	void addBom(std::ofstream& File);
 };
 

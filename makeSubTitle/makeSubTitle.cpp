@@ -29,6 +29,10 @@ static InputData g_inputCfg;
 //TODO: standart read
 void readInputData(size_t size, char **data){
 	const size_t constParCount = 4;
+#ifdef _DEBUG
+	std::cout << "parameters count: " << size << std::endl;
+#endif // DEBUG
+
 	if (size < constParCount) {
 		std::cout << "ERROR: Wrong parameters." << std::endl;
 		std::cout << " " << std::endl;
@@ -59,9 +63,13 @@ void readInputData(size_t size, char **data){
 	g_inputCfg.sFileOut = data[parIdx];
 	parIdx++;
 	while (parIdx < size){
+#ifdef _DEBUG
+		std::cout << "parameter: " << data[parIdx] << std::endl;
+#endif // DEBUG
 		if (data[parIdx] == tag::sConvert) {
-			parIdx++;
 			if (parIdx + 2 < size) {
+				g_inputCfg.convCfg.bConvert = true;
+				parIdx++;
 				auto getEncoding = [data](auto parIdx, auto& outEncoding) {
 					if (data[parIdx] == tag::sUtf8Bom)
 						outEncoding = eEncoding::utf8Bom;
