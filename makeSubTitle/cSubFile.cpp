@@ -30,7 +30,7 @@ void cSubFile::readFromFile(const std::string& sFileName)
 
 	cFragment Fragment;
 	std::string sLine;
-	std::regex regStartFragment("[0123456789]{1,3}");
+	std::regex regStartFragment("[0123456789]{1,4}");
 	std::regex regTime("[0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4} --> [0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4}");
 	bool isFragment = false;
 	while (File) {
