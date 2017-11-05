@@ -20,7 +20,7 @@ cFragment::cFragment(const cFragment& frag)
 void cFragment::check()
 {
 	if (!_isTimeSet)
-		throw "ERR: Time no set";
+		throw std::string("ERR: Time no set");
 }
 void cFragment::clear()
 {

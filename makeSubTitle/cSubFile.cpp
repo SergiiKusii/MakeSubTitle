@@ -3,6 +3,10 @@
 #include <fstream>
 #include <regex>
 #include "Converter.h"
+#ifdef _DEBUG
+#include <iostream> // cerr
+#endif
+
 
 #define AUTHOR_NAME "Sergii Kusii"
 #define FIRST_BLOC "0\r\n00:00:01,000 --> 00:00:05,000\r\nReleased by Sergii Kusii"
@@ -31,11 +35,13 @@ void cSubFile::readFromFile(const std::string& sFileName)
 	cFragment Fragment;
 	std::string sLine;
 	std::regex regStartFragment("[0123456789]{1,4}");
-	std::regex regTime("[0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4} --> [0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4}");
+	std::regex regTime("[0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4} --> [0123456789]{2}:[0123456789]{2}:[0123456789]{2}[0123456789,]{0,4}[ ]{0,}");
 	bool isFragment = false;
 	while (File) {
 		std::getline(File, sLine);
-
+#ifdef _DEBUG
+		std::cerr << sLine << std::endl;
+#endif
 		if (isFragment)
 		{
 			if (sLine.empty())
